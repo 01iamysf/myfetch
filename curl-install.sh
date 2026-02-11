@@ -31,13 +31,35 @@ chmod +x "$INSTALL_DIR/myfetch.py"
 echo "Creating symlink in $BIN_DIR..."
 ln -sf "$INSTALL_DIR/myfetch.py" "$BIN_DIR/$BINARY_NAME"
 
-# 5. PATH verification
+# 5. PATH verification and fix
 if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
     echo "⚠️  $BIN_DIR is not in your PATH."
-    echo "Please add this to your shell profile (~/.bashrc or ~/.zshrc):"
-    echo "export PATH=\"\$HOME/.local/bin:\$PATH\""
+    
+    SHELL_PROFILE=""
+    case "$SHELL" in
+        */bash) SHELL_PROFILE="$HOME/.bashrc" ;;
+        */zsh)  SHELL_PROFILE="$HOME/.zshrc" ;;
+        *)      SHELL_PROFILE="$HOME/.profile" ;;
+    esac
+
+    if [ -f "$SHELL_PROFILE" ]; then
+        if ! grep -q "$BIN_DIR" "$SHELL_PROFILE"; then
+            echo "Adding $BIN_DIR to PATH in $SHELL_PROFILE..."
+            echo "" >> "$SHELL_PROFILE"
+            echo "# Added by myfetch installer" >> "$SHELL_PROFILE"
+            echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> "$SHELL_PROFILE"
+            
+            echo "✅ Success! PATH updated in $SHELL_PROFILE."
+            echo "👉 PLEASE RUN: source $SHELL_PROFILE"
+            echo "   Or restart your terminal to start using 'myfetch'."
+        else
+            echo "PATH export already exists in $SHELL_PROFILE but is not active."
+            echo "👉 Please run: source $SHELL_PROFILE"
+        fi
+    else
+        echo "Could not find a shell profile to update."
+        echo "Please manually add $BIN_DIR to your PATH."
+    fi
 else
     echo "✅ Success! You can now run 'myfetch' from any terminal."
 fi
-
-echo "Try it now: myfetch"
