@@ -1,42 +1,43 @@
 #!/bin/bash
 
-# myfetch - Remote Install Script
-# Usage: curl -sSL https://raw.githubusercontent.com/01iamysf/myfetch/main/curl-install.sh | bash
+# myfetch - Direct Install Script
+# This script clones the repository and sets up the symlink.
 
 set -e
 
 REPO_URL="https://github.com/01iamysf/myfetch.git"
-TEMP_DIR=$(mktemp -d)
+INSTALL_DIR="$HOME/.local/share/myfetch"
+BIN_DIR="$HOME/.local/bin"
+BINARY_NAME="myfetch"
 
-echo "☁️  Cloning myfetch from GitHub..."
-git clone --depth 1 "$REPO_URL" "$TEMP_DIR"
+echo "🚀 Installing myfetch..."
 
-cd "$TEMP_DIR"
+# 1. Prepare directories
+mkdir -p "$BIN_DIR"
 
-echo "🚀 Installing myfetch via pip..."
-if command -v pip3 &> /dev/null; then
-    python3 -m pip install --user .
-elif command -v pip &> /dev/null; then
-    pip install --user .
+# 2. Clone or Update
+if [ -d "$INSTALL_DIR" ]; then
+    echo "Updating existing installation in $INSTALL_DIR..."
+    cd "$INSTALL_DIR" && git pull origin main
 else
-    echo "❌ Error: pip is not installed. Please install python3-pip first."
-    exit 1
+    echo "Cloning repository to $INSTALL_DIR..."
+    git clone "$REPO_URL" "$INSTALL_DIR"
 fi
 
-# Determine where pip installed the binary
-# Usually ~/.local/bin or /usr/local/bin
-INSTALL_DIR=$(python3 -m site --user-base)/bin
+# 3. Set permissions
+chmod +x "$INSTALL_DIR/myfetch.py"
 
-# Check if INSTALL_DIR is in PATH
-if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
-    echo "⚠️  Note: $INSTALL_DIR is not in your PATH."
-    echo "Please add the following line to your ~/.bashrc or ~/.zshrc:"
-    echo "export PATH=\"$INSTALL_DIR:\$PATH\""
+# 4. Create symlink
+echo "Creating symlink in $BIN_DIR..."
+ln -sf "$INSTALL_DIR/myfetch.py" "$BIN_DIR/$BINARY_NAME"
+
+# 5. PATH verification
+if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
+    echo "⚠️  $BIN_DIR is not in your PATH."
+    echo "Please add this to your shell profile (~/.bashrc or ~/.zshrc):"
+    echo "export PATH=\"\$HOME/.local/bin:\$PATH\""
 else
     echo "✅ Success! You can now run 'myfetch' from any terminal."
 fi
 
-# Cleanup
-rm -rf "$TEMP_DIR"
-
-echo "Try it now with: myfetch --help"
+echo "Try it now: myfetch"

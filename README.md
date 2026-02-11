@@ -17,8 +17,8 @@ Run this one-liner to install `myfetch` directly from GitHub:
 curl -sSL https://raw.githubusercontent.com/01iamysf/myfetch/main/curl-install.sh | bash
 ```
 
-### Method 1: Quick Install (Symlink)
-This method is recommended for developers.
+### Method 1: Local Install (Symlink)
+This method is recommended for developers working on the code.
 ```bash
 chmod +x install.sh
 ./install.sh
