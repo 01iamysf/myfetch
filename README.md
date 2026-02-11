@@ -54,7 +54,6 @@ Customize the tool at `~/.config/myfetch/config` (JSON):
 }
 ```
 
-<<<<<<< HEAD
 =======
 ## Online Distribution
 
