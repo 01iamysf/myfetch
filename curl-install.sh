@@ -6,7 +6,6 @@
 set -e
 
 REPO_URL="https://github.com/01iamysf/myfetch.git"
-INSTALL_DIR="$HOME/.local/bin"
 TEMP_DIR=$(mktemp -d)
 
 echo "☁️  Cloning myfetch from GitHub..."
@@ -14,21 +13,25 @@ git clone --depth 1 "$REPO_URL" "$TEMP_DIR"
 
 cd "$TEMP_DIR"
 
-echo "🚀 Installing myfetch to $INSTALL_DIR..."
-mkdir -p "$INSTALL_DIR"
-chmod +x myfetch.py
+echo "🚀 Installing myfetch via pip..."
+if command -v pip3 &> /dev/null; then
+    python3 -m pip install --user .
+elif command -v pip &> /dev/null; then
+    pip install --user .
+else
+    echo "❌ Error: pip is not installed. Please install python3-pip first."
+    exit 1
+fi
 
-# Create/Update symlink with absolute path
-# We copy the script to a permanent location first if we want it to survive TEMP_DIR deletion
-# Or we can just copy it to INSTALL_DIR directly
-cp myfetch.py "$INSTALL_DIR/myfetch"
-chmod +x "$INSTALL_DIR/myfetch"
+# Determine where pip installed the binary
+# Usually ~/.local/bin or /usr/local/bin
+INSTALL_DIR=$(python3 -m site --user-base)/bin
 
 # Check if INSTALL_DIR is in PATH
 if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
     echo "⚠️  Note: $INSTALL_DIR is not in your PATH."
     echo "Please add the following line to your ~/.bashrc or ~/.zshrc:"
-    echo "export PATH=\"\$HOME/.local/bin:\$PATH\""
+    echo "export PATH=\"$INSTALL_DIR:\$PATH\""
 else
     echo "✅ Success! You can now run 'myfetch' from any terminal."
 fi
