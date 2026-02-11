@@ -86,4 +86,3 @@ Once hosted on GitHub, users can install it instantly:
 ```bash
 curl -sSL https://raw.githubusercontent.com/adminysf/myfetch/main/install.sh | bash
 ```
->>>>>>> 4241296 (Public release)
