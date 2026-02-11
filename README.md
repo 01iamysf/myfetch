@@ -1,0 +1,56 @@
+# myfetch - Advanced Linux System Information & Diagnostics
+
+An all-in-one system inspection tool designed for speed, modularity, and human-friendly diagnostics.
+
+## Features
+- **Fast**: Reads directly from `/proc` and `/sys` with zero dependencies.
+- **Modular**: Separate views for Performance, Network, Storage, Security, and more.
+- **Intelligent**: Provides human-readable explanations and health alerts.
+- **Honest**: Detailed memory breakdowns and root-level hardware discovery.
+- **Modern**: ANSI colors and Nerd Font icon support.
+
+## Installation
+
+### Method 1: Quick Install (Symlink)
+This method is recommended for developers.
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+### Method 2: Standard Python Install
+```bash
+pip install .
+```
+
+## Usage
+Once installed, simply run:
+```bash
+myfetch
+```
+Or for specific modules:
+```bash
+myfetch --top
+myfetch --storage
+```
+- `myfetch --health`: System health & diagnostics.
+- `myfetch --network`: Network analysis.
+- `myfetch --security`: Security status and port audit.
+- `myfetch --hardware`: Deep hardware info (motherboard, BIOS, CPU, GPU).
+- `myfetch --services`: Systemd services & boot performance.
+
+### Sudo Mode (Recommended):
+Run with `sudo` to unlock detailed hardware tables, process ownership, and network port mapping:
+```bash
+sudo myfetch --top
+```
+
+## Configuration
+Customize the tool at `~/.config/myfetch/config` (JSON):
+```json
+{
+  "icons": true,
+  "colors": true
+}
+```
+
