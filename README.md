@@ -17,8 +17,8 @@ Run this one-liner to install `myfetch` directly from GitHub:
 curl -sSL https://raw.githubusercontent.com/01iamysf/myfetch/main/curl-install.sh | bash
 ```
 
-### Method 1: Local Install (Symlink)
-This method is recommended for developers working on the code.
+### Method 1: Quick Install (Symlink)
+This method is recommended for developers.
 ```bash
 chmod +x install.sh
 ./install.sh
@@ -60,3 +60,36 @@ Customize the tool at `~/.config/myfetch/config` (JSON):
 }
 ```
 
+<<<<<<< HEAD
+=======
+## Online Distribution
+
+### Hosting on GitHub
+1. Create a new repository on GitHub.
+2. Push your code:
+   ```bash
+   git init
+   git add .
+   git commit -m "Public release"
+   git remote add origin https://github.com/yourusername/myfetch.git
+   git push -u origin main
+   ```
+
+### Publishing to PyPI
+1. Build the package:
+   ```bash
+   python3 -m pip install --upgrade build
+   python3 -m build
+   ```
+2. Upload to PyPI (requires an account):
+   ```bash
+   python3 -m pip install --upgrade twine
+   python3 -m twine upload dist/*
+   ```
+
+### One-liner Installation (GitHub)
+Once hosted on GitHub, users can install it instantly:
+```bash
+curl -sSL https://raw.githubusercontent.com/adminysf/myfetch/main/install.sh | bash
+```
+>>>>>>> 4241296 (Public release)

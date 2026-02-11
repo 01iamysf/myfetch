@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "myfetch-tool"
+version = "1.0.1"
+authors = [
+  { name="Antigravity Team", email="antigravity@example.com" },
+]
+description = "Advanced Linux System Information & Diagnostics Tool"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+]
+keywords = ["fetch", "system-info", "diagnostics", "linux"]
+
+[project.urls]
+"Homepage" = "https://github.com/adminysf/myfetch"
+"Bug Tracker" = "https://github.com/adminysf/myfetch/issues"
+
+[project.scripts]
+myfetch = "myfetch:main"

@@ -28,7 +28,11 @@ class MyFetch:
                     config = json.load(f)
                     self.formatter.use_icons = config.get('icons', self.formatter.use_icons)
                     self.formatter.use_colors = config.get('colors', self.formatter.use_colors)
-            except:
+            except (json.JSONDecodeError, PermissionError):
+                # Ignore malformed or unreadable config
+                pass
+            except Exception:
+                # Fallback for unexpected issues
                 pass
 
     def get_health_status(self, load, mem_percent):
@@ -60,8 +64,8 @@ class MyFetch:
 
         # Calculate memory usage
         total_mem = mem.get('MemTotal', 0)
-        free_mem = mem.get('MemFree', 0) + mem.get('Buffers', 0) + mem.get('Cached', 0)
-        used_mem = total_mem - free_mem
+        available_mem = mem.get('MemAvailable', 0)
+        used_mem = total_mem - available_mem
         mem_percent = (used_mem / total_mem * 100) if total_mem > 0 else 0
 
         self.formatter.header(f"System Summary: {hostname}")

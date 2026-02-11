@@ -29,6 +29,10 @@ class Scanner:
                 match = re.search(r'(\d+)', parts[1])
                 if match:
                     meminfo[name] = int(match.group(1))
+        # Ensure consistent keys for calculation
+        if 'MemAvailable' not in meminfo:
+            # Fallback for older kernels
+            meminfo['MemAvailable'] = meminfo.get('MemFree', 0) + meminfo.get('Buffers', 0) + meminfo.get('Cached', 0)
         return meminfo
 
     def get_cpuinfo(self) -> Dict[str, Any]:
