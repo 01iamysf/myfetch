@@ -50,8 +50,13 @@ if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
             echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> "$SHELL_PROFILE"
             
             echo "✅ Success! PATH updated in $SHELL_PROFILE."
-            echo "👉 PLEASE RUN: source $SHELL_PROFILE"
-            echo "   Or restart your terminal to start using 'myfetch'."
+            echo ""
+            echo "--------------------------------------------------------"
+            echo "👉 ATTENTION: YOU MUST RUN THE FOLLOWING COMMAND TO START:"
+            echo "   source $SHELL_PROFILE"
+            echo "--------------------------------------------------------"
+            echo ""
+            echo "Or simply restart your terminal."
         else
             echo "PATH export already exists in $SHELL_PROFILE but is not active."
             echo "👉 Please run: source $SHELL_PROFILE"
