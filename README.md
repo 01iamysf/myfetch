@@ -17,6 +17,12 @@ Run this one-liner to install `myfetch` globally on any Linux computer:
 curl -sSL https://raw.githubusercontent.com/01iamysf/myfetch/main/curl-install.sh | bash
 ```
 
+### Uninstallation
+To completely remove `myfetch` from your system, run:
+```bash
+curl -sSL https://raw.githubusercontent.com/01iamysf/myfetch/main/uninstall.sh | bash
+```
+
 ## Usage
 Once installed, simply run:
 ```bash
