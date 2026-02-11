@@ -78,6 +78,10 @@ class MyFetch:
         mem_str = f"{self.formatter.format_size(used_mem)} / {self.formatter.format_size(total_mem)} ({mem_percent:.1f}%)"
         self.formatter.kv("RAM", f"{mem_str} {self.formatter.get_progress_bar(mem_percent)}", "")
 
+        # Package Count
+        pkgs = self.scanner.get_package_count()
+        self.formatter.kv("Packages", pkgs, "󰏖")
+
         self.formatter.kv("Network", f"Connected ({ips.get('primary', 'Disconnected')})", "󰩟")
 
         if battery:

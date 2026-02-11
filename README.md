@@ -11,22 +11,10 @@ An all-in-one system inspection tool designed for speed, modularity, and human-f
 
 ## Installation
 
-### Method 0: Direct Install (via curl)
-Run this one-liner to install `myfetch` directly from GitHub:
+### Quick Install (via curl)
+Run this one-liner to install `myfetch` globally on any Linux computer:
 ```bash
 curl -sSL https://raw.githubusercontent.com/01iamysf/myfetch/main/curl-install.sh | bash
-```
-
-### Method 1: Local Install (Symlink)
-This method is recommended for developers working on the code.
-```bash
-chmod +x install.sh
-./install.sh
-```
-
-### Method 2: Standard Python Install
-```bash
-pip install .
 ```
 
 ## Usage

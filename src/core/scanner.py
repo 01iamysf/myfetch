@@ -220,6 +220,54 @@ class Scanner:
                 continue
         return storage
 
+    def get_package_count(self) -> str:
+        """Heuristically counts installed packages from common package managers."""
+        counts = []
+        
+        # 1. Check for DPKG (Debian, Ubuntu)
+        if os.path.exists('/var/lib/dpkg/status'):
+            data = self.read_file('/var/lib/dpkg/status')
+            count = data.count('Status: install ok installed')
+            if count > 0: counts.append(f"{count} (dpkg)")
+            
+        # 2. Check for RPM (Fedora, RHEL, openSUSE)
+        # Reading RPM DB directly is hard, so we use a faster check if possible
+        if os.path.exists('/var/lib/rpm/Packages') or os.path.exists('/var/lib/rpm/rpmdb.sqlite'):
+            # Fallback to shell if we can't read it easily, but for now we'll just check existence
+            # and use a small subprocess trick since RPM is binary
+            import subprocess
+            try:
+                out = subprocess.check_output(['rpm', '-qa'], stderr=subprocess.DEVNULL).decode().count('\n')
+                if out > 0: counts.append(f"{out} (rpm)")
+            except:
+                pass
+
+        # 3. Check for Pacman (Arch, Manjaro)
+        if os.path.exists('/var/lib/pacman/local'):
+            try:
+                count = len(os.listdir('/var/lib/pacman/local'))
+                if count > 0: counts.append(f"{count} (pacman)")
+            except:
+                pass
+
+        # 4. Check for Flatpak
+        if os.path.exists('/var/lib/flatpak/app'):
+            try:
+                count = len(os.listdir('/var/lib/flatpak/app'))
+                if count > 0: counts.append(f"{count} (flatpak)")
+            except:
+                pass
+
+        # 5. Check for Snap
+        if os.path.exists('/var/lib/snapd/snaps'):
+            try:
+                count = len([f for f in os.listdir('/var/lib/snapd/snaps') if f.endswith('.snap')])
+                if count > 0: counts.append(f"{count} (snap)")
+            except:
+                pass
+
+        return ", ".join(counts) if counts else "Unknown"
+
     def get_temperatures(self) -> Dict[str, float]:
         """Reads from /sys/class/thermal/."""
         temps = {}
