@@ -79,9 +79,3 @@ Customize the tool at `~/.config/myfetch/config` (JSON):
    python3 -m pip install --upgrade twine
    python3 -m twine upload dist/*
    ```
-
-### One-liner Installation (GitHub)
-Once hosted on GitHub, users can install it instantly:
-```bash
-curl -sSL https://raw.githubusercontent.com/adminysf/myfetch/main/install.sh | bash
-```
